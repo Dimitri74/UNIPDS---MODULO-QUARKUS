@@ -26,12 +26,24 @@ public class StarWarsHealthCheck implements HealthCheck {
             String response = starWarsService.getStarships();
 
             if (response != null && !response.isEmpty()) {
-                return HealthCheckResponse.up("StarWars API Health Check , I am Ready!");
+                return HealthCheckResponse.builder()
+                        .up()
+                        .name("StarWars API Health Check")
+                        .withData("status", "I am Ready!")
+                        .build();
             } else {
-                return HealthCheckResponse.down("StarWars API Health Check ,  I am Not Ready.");
+                return HealthCheckResponse.builder()
+                        .down()
+                        .name("StarWars API Health Check")
+                        .withData("status", "I am Not Ready.")
+                        .build();
             }
         } catch (Exception e) {
-            return HealthCheckResponse.down("StarWars API Health Check");
+            return HealthCheckResponse.builder()
+                    .down()
+                    .name("StarWars API Health Check")
+                    .withData("error", e.getMessage())
+                    .build();
         }
     }
 }
