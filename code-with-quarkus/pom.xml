@@ -78,13 +78,25 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-jwt</artifactId>
         </dependency>
+        <!-- OpenTelemetry -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-opentelemetry</artifactId>
         </dependency>
+        <!-- Exportador OTLP para Jaeger/Collector -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-opentelemetry-exporter-otlp</artifactId>
+        </dependency>
+        <!-- Instrumentação JDBC -->
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-jdbc</artifactId>
+        </dependency>
+        <!-- API OpenTelemetry -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

@@ -1,12 +1,14 @@
 package org.unipds.resource;
 
+import io.opentelemetry.instrumentation.annotations.SpanAttribute;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import io.micrometer.core.annotation.Counted;
-import io.micrometer.core.instrument.MeterRegistry;
 import org.unipds.entity.Pessoa;
+import org.unipds.observability.ObservabilityService;
 
 import java.util.List;
 
@@ -15,23 +17,28 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PessoaResource {
 
+    @Inject
+    ObservabilityService observabilityService;
 
     @GET
     @Counted(value = "counted.getPessoa")
+    @WithSpan
     public List<Pessoa> getPessoa() {
         return Pessoa.listAll();
     }
 
     @GET
     @Path("findByAnoNascimento")
-    public List<Pessoa> findByAnoNascimento(@QueryParam("anoNascimento") int anoNascimento) {
+    @WithSpan
+    public List<Pessoa> findByAnoNascimento(@QueryParam("anoNascimento") @SpanAttribute int anoNascimento) {
         return Pessoa.findByAnoNascimento(anoNascimento);
     }
 
 
     @POST
     @Transactional
-    public Pessoa createPessoa(Pessoa pessoa) {
+    @WithSpan
+    public Pessoa createPessoa(@SpanAttribute Pessoa pessoa) {
         pessoa.id = null;
         pessoa.persist();
 
@@ -40,7 +47,8 @@ public class PessoaResource {
 
     @PUT
     @Transactional
-    public Pessoa updatePessoa(Pessoa pessoa) {
+    @WithSpan
+    public Pessoa updatePessoa(@SpanAttribute Pessoa pessoa) {
         Pessoa p = Pessoa.findById(pessoa.id);
         p.nome = pessoa.nome;
         p.anoNascimento = pessoa.anoNascimento;
@@ -51,7 +59,10 @@ public class PessoaResource {
 
     @DELETE
     @Transactional
-    public void deletePessoa(int id) {
+    @WithSpan
+    public void deletePessoa(@SpanAttribute int id) {
         Pessoa.deleteById(id);
     }
 }
+
+
