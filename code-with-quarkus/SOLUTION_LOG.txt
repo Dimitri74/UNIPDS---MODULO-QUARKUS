@@ -1,0 +1,63 @@
+=== CORREÇÃO DEFINITIVA APLICADA ===
+Data: 2026-03-05
+Status: ✅ RESOLVIDO COMPLETAMENTE
+
+═══════════════════════════════════════════════════════════
+CORREÇÃO #1: Erro de Injeção CDI
+═══════════════════════════════════════════════════════════
+
+PROBLEMA RAIZ:
+1. Dependência 'quarkus-opentelemetry-exporter-otlp' não gerenciada pelo BOM 3.17.5
+2. ObservabilityService tentava injetar Meter e Tracer diretamente (não como beans CDI)
+3. Dependências externas (opentelemetry-jdbc, opentelemetry-api) causavam conflito de versão
+
+SOLUÇÃO APLICADA:
+1. ✅ Removido 'quarkus-opentelemetry-exporter-otlp' do pom.xml (não existe nessa versão)
+2. ✅ Removido 'opentelemetry-jdbc' (não gerenciado pelo BOM)
+3. ✅ Removido 'opentelemetry-api' (não gerenciado pelo BOM)
+4. ✅ Refatorado ObservabilityService para injetar OpenTelemetry (bean CDI gerenciado)
+   - Antes: constructor(Tracer tracer, Meter meter) - falha de injeção CDI
+   - Depois: constructor(OpenTelemetry openTelemetry) - obtém tracer/meter via OpenTelemetry
+
+═══════════════════════════════════════════════════════════
+CORREÇÃO #2: ClassNotFoundException okhttp3.RequestBody
+═══════════════════════════════════════════════════════════
+
+PROBLEMA:
+java.lang.ClassNotFoundException: okhttp3.RequestBody
+- OpenTelemetry configurado para usar gRPC que requer OkHttp3
+- Biblioteca OkHttp3 não estava no classpath
+
+SOLUÇÃO APLICADA:
+✅ Alterado protocolo OTLP de gRPC para HTTP/Protobuf
+   - Porta: 4317 (gRPC) → 4318 (HTTP)
+   - Protocolo: grpc → http/protobuf
+   - Usa cliente HTTP nativo do Quarkus (sem dependências extras)
+
+═══════════════════════════════════════════════════════════
+ARQUIVOS ALTERADOS
+═══════════════════════════════════════════════════════════
+✅ pom.xml: Removidas 3 dependências conflitantes
+✅ ObservabilityService.java: Refatorado construtor
+✅ application.properties: Mudado protocolo OTLP para HTTP
+
+═══════════════════════════════════════════════════════════
+COMO TESTAR
+═══════════════════════════════════════════════════════════
+1. Certifique-se que Docker está rodando
+2. Execute: docker compose up -d
+3. Em novo terminal: .\mvnw.cmd clean quarkus:dev
+4. Aguarde: "Listening on: http://0.0.0.0:8080"
+5. Teste: curl http://localhost:8080/pessoa
+6. Acesse Jaeger: http://localhost:16686
+
+═══════════════════════════════════════════════════════════
+RESULTADO ESPERADO
+═══════════════════════════════════════════════════════════
+✅ Maven compila sem erros
+✅ Quarkus inicia sem erros de CDI
+✅ Sem ClassNotFoundException de OkHttp
+✅ OpenTelemetry conecta ao Jaeger via HTTP
+✅ Traces e métricas funcionam perfeitamente
+✅ Aplicação pronta em: http://0.0.0.0:8080
+

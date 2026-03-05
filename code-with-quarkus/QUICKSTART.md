@@ -15,6 +15,13 @@ Antes de começar, certifique-se de ter:
 
 ## 🚀 Passo a Passo
 
+### Passo 0: Verificação do Docker
+Antes de qualquer coisa, verifique se o Docker está respondendo corretamente no seu terminal:
+```powershell
+docker ps
+```
+Se este comando retornar um erro de conexão ou "daemon not running", o passo seguinte falhará. Certifique-se de que o Docker Desktop está aberto e funcional.
+
 ### Passo 1: Inicie Docker Compose (Stack de Observabilidade)
 
 **Abra um terminal PowerShell ou CMD** na pasta `code-with-quarkus` e execute:
@@ -88,6 +95,9 @@ curl http://localhost:8080/pessoa
 curl http://localhost:8080/starwars/starships
 ```
 
+⚠️ **Nota sobre o teste da Star Wars API:** 
+Se ao acessar `http://localhost:8080/starwars/starships` você receber apenas a palavra `"Fallback "`, significa que a API externa (`swapi.dev`) falhou ou demorou mais de 3 segundos para responder. A aplicação está funcionando corretamente (Resiliência), apenas o serviço de terceiros está indisponível no momento.
+
 ---
 
 ### Passo 4: Acesse os Dashboards
@@ -129,19 +139,34 @@ curl http://localhost:8080/starwars/starships
 
 ---
 
-## 🛑 Parar Tudo
+### 🛑 Parar Tudo
 
-### Parar Docker Stack:
+#### Parar Aplicação Quarkus:
+Pressione `Ctrl+C` no terminal onde está rodando.
+
+#### Parar Docker Stack:
 ```powershell
+# Para os containers mas mantém os volumes (dados do Grafana/Prometheus salvos)
 docker compose down
 ```
-ou
+
+#### Parar e Remover Tudo (Limpeza Total):
 ```powershell
-docker-compose down
+# Para os containers e remove os volumes (limpa todos os dados)
+docker compose down -v
 ```
 
-### Parar Aplicação Quarkus:
-Pressione `Ctrl+C` no terminal onde está rodando.
+#### Outros Comandos Docker Úteis:
+```powershell
+# Ver logs dos serviços de observabilidade
+docker compose logs -f
+
+# Reiniciar apenas um serviço específico (ex: jaeger)
+docker compose restart jaeger
+
+# Verificar status dos containers
+docker compose ps
+```
 
 ---
 
@@ -176,6 +201,20 @@ taskkill /PID <PID> /F
 ```powershell
 # Use Maven instalado no sistema
 mvn clean compile quarkus:dev
+```
+
+### ❌ Problema: Erro de inicialização com `NoClassDefFoundError: okhttp3/Interceptor`
+**Solução:** Este erro ocorre se o Quarkus tentar usar o exportador HTTP sem as dependências necessárias. Certifique-se de que o `application.properties` está configurado para usar gRPC (padrão do projeto):
+```properties
+quarkus.otel.exporter.otlp.traces.protocol=grpc
+quarkus.otel.exporter.otlp.metrics.protocol=grpc
+```
+E que as portas 4317 (gRPC) estão liberadas no Docker.
+
+### ❌ Problema: Erro persistente ao subir o Quarkus mesmo após correções
+**Solução:** Tente forçar a atualização das dependências e limpar o cache do build (Deep Clean):
+```powershell
+.\mvnw.cmd clean compile -U
 ```
 
 ---

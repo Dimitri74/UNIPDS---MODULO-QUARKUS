@@ -1,5 +1,6 @@
 package org.unipds.observability;
 
+import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.instrumentation.annotations.SpanAttribute;
@@ -12,12 +13,14 @@ import jakarta.inject.Singleton;
 @Singleton
 public class ObservabilityService {
 
+    private static final String INSTRUMENTATION_NAME = "org.unipds.observability";
+
     private final Tracer tracer;
     private final Meter meter;
 
-    public ObservabilityService(Tracer tracer, Meter meter) {
-        this.tracer = tracer;
-        this.meter = meter;
+    public ObservabilityService(OpenTelemetry openTelemetry) {
+        this.tracer = openTelemetry.getTracer(INSTRUMENTATION_NAME);
+        this.meter = openTelemetry.getMeter(INSTRUMENTATION_NAME);
     }
 
     /**
@@ -53,4 +56,3 @@ public class ObservabilityService {
         return meter;
     }
 }
-
