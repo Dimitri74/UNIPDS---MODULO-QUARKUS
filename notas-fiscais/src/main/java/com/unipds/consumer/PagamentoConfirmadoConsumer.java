@@ -18,7 +18,6 @@ public class PagamentoConfirmadoConsumer {
     ObjectMapper objectMapper;
 
     @Incoming("pagamentos-confirmados")
-    @Blocking
     public Uni<Void> consumePagamentoConfirmado(String payload) {
         LOG.info("Recebido evento de pagamento confirmado em notas-fiscais: " + payload);
 

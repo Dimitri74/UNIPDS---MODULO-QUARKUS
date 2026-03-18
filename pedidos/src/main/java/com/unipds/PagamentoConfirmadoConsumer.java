@@ -18,7 +18,6 @@ public class PagamentoConfirmadoConsumer {
     ObjectMapper objectMapper;
 
     @Incoming("pagamentos-confirmados")
-    @Blocking
     public Uni<Void> consumePagamentoConfirmado(String payload) {
         LOG.info("Recebido evento de pagamento confirmado: " + payload);
 
@@ -45,11 +44,11 @@ public class PagamentoConfirmadoConsumer {
         return Panache.withTransaction(() ->
                 Pedido.<Pedido>findById(pedidoId)
                         .onItem().ifNotNull().invoke(pedido -> {
-                            if (StatusPedido.REALIZADO.equals(pedido.status)) {
+                            if (StatusPedido.REALIZADO.equals(pedido.status) || StatusPedido.CONFIRMADO.equals(pedido.status)) {
                                 pedido.status = StatusPedido.PAGO;
                                 LOG.info("Status do Pedido " + pedidoId + " atualizado para PAGO");
                             } else {
-                                LOG.warn("Pedido " + pedidoId + " não está em estado REALIZADO. Status atual: " + pedido.status);
+                                LOG.warn("Pedido " + pedidoId + " não está em estado REALIZADO ou CONFIRMADO. Status atual: " + pedido.status);
                             }
                         })
                         .onItem().ifNull().continueWith(() -> {

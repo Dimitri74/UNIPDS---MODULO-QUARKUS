@@ -33,4 +33,4 @@ echo ""
 
 echo ""
 echo "=== Verificando Consumer Groups ==="
-docker exec -it florinha-eats-kafka-1 kafka-consumer-groups.sh --bootstrap-server localhost:9094 --all-groups --describe
+docker exec -it florinda-eats-kafka-1 kafka-consumer-groups.sh --bootstrap-server localhost:9094 --all-groups --describe
