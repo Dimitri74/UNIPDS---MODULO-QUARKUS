@@ -36,7 +36,7 @@ Em um novo terminal, você pode validar o funcionamento com o comando:
 ```powershell
 curl.exe -X POST "http://localhost:8080/travel" `
      -H "Content-Type: text/plain; charset=utf-8" `
-     --data-raw "Quais sao as formas de cancelamento dos pacotes?"
+     --data-raw "Por favor, cancele minha reserva 67890. Meu último nome é Smith."
 ```
 
 ---

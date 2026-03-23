@@ -1,4 +1,4 @@
-package dev.ia.resource;
+package dev.ia.presentation.rest;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -14,3 +14,4 @@ public class GreetingResource {
         return "Hello from Quarkus REST";
     }
 }
+

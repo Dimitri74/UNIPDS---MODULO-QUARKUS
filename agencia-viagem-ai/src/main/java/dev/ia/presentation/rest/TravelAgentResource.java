@@ -1,6 +1,6 @@
-package dev.ia.resource;
+package dev.ia.presentation.rest;
 
-import dev.ia.service.ia.PackageExpert;
+import dev.ia.application.ai.PackageExpert;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -28,3 +28,4 @@ public class TravelAgentResource {
 
     }
 }
+

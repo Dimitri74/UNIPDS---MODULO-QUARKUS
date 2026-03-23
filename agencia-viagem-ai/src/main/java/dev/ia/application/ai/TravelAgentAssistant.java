@@ -1,4 +1,4 @@
-package dev.ia.service.ia;
+package dev.ia.application.ai;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
@@ -15,3 +15,4 @@ public interface TravelAgentAssistant {
             """)
     String chat(@UserMessage String userMessage);
 }
+

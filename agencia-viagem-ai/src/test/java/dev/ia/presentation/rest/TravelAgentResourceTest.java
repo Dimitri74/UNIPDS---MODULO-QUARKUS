@@ -1,6 +1,6 @@
-package dev.ia;
+package dev.ia.presentation.rest;
 
-import dev.ia.service.ia.PackageExpert;
+import dev.ia.application.ai.PackageExpert;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
@@ -30,4 +30,5 @@ class TravelAgentResourceTest {
                 .body(is("Primavera e outono sao as melhores epocas pelo clima ameno."));
     }
 }
+
 

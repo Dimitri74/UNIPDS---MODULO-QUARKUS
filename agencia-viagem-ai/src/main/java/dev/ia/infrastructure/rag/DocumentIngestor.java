@@ -1,4 +1,4 @@
-package dev.ia.service.ia;
+package dev.ia.infrastructure.rag;
 
 
 import dev.langchain4j.data.document.Document;
@@ -48,3 +48,4 @@ public class DocumentIngestor {
 
 
 }
+
