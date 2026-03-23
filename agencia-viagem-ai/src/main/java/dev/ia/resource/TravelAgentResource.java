@@ -1,6 +1,6 @@
 package dev.ia.resource;
 
-import dev.ia.service.ia.TravelAgentAssistant;
+import dev.ia.service.ia.PackageExpert;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -13,15 +13,18 @@ public class TravelAgentResource {
 
 
 
+   // @Inject
+   // TravelAgentAssistant assistant;
+
     @Inject
-    TravelAgentAssistant assistant;
+    PackageExpert   expert;
 
 
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public String ask(String question){
-        return assistant.chat(question);
+        return expert.chat("session-123",question);
 
     }
 }

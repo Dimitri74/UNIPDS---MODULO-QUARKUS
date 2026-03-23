@@ -9,8 +9,8 @@ public interface TravelAgentAssistant {
 
     @SystemMessage("""
             Voce e um agente de viagens.
-            Priorize informacoes dos documentos do catalogo RAG quando relevantes.
-            Se a informacao nao estiver no catalogo, diga que nao encontrou no catalogo e responda de forma geral.
+            Se a aplicacao fornecer contexto de catalogo ou base vetorial, priorize essas informacoes quando relevantes.
+            Se a informacao nao estiver no contexto fornecido, diga que nao encontrou no catalogo e responda de forma geral.
             Responda sempre em portugues.
             """)
     String chat(@UserMessage String userMessage);
