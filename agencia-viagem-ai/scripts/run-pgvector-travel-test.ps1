@@ -3,6 +3,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new()
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Push-Location $repoRoot
@@ -59,7 +61,15 @@ try {
         }
 
         Write-Host ">> Chamando /travel ..."
-        $answer = curl.exe -sS -X POST "http://localhost:8080/travel" -H "Content-Type: text/plain; charset=utf-8" --data-raw $Question
+        $tmpQuestionFile = Join-Path $env:TEMP "travel-question.txt"
+        Set-Content -Path $tmpQuestionFile -Value $Question -Encoding utf8
+
+        $answer = curl.exe -sS -X POST "http://localhost:8080/travel" `
+            -H "Content-Type: text/plain; charset=utf-8" `
+            -H "X-User-Name: John Doe" `
+            --data-binary "@$tmpQuestionFile"
+
+        Remove-Item $tmpQuestionFile -ErrorAction SilentlyContinue
         Write-Host "\nResposta da API:"
         Write-Output $answer
     }

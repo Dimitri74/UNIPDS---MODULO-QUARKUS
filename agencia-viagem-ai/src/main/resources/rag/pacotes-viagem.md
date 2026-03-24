@@ -3,36 +3,42 @@
 - **Atividades:** focagem noturna de jacarés, caminhada na selva, visita a comunidades ribeirinhas
 - **Política de cancelamento:** reembolso de 80% com 30 dias de antecedência
 - **Preço:** R$ 4.500,00 por pessoa
+- **Pacote:**:  Aventura
 
-###  Pacote Tesouros do Egito
+###  Pacote Aventura  Egito
 - **Duração:** 10 dias e 9 noites
 - **Atividades:** visita às pirâmides de Gizé, cruzeiro no Nilo, tour pelo Museu do Cairo
 - **Política de cancelamento:** reembolso de 50% com 30 dias de antecedência
 - **Preço:** R$ 12.800,00 por pessoa
+- **Pacote:**:  Aventura
 
 ###  Pacote Encantos do Japão
 - **Duração:** 12 dias e 11 noites
 - **Atividades:** passeio por templos em Kyoto, visita ao Monte Fuji, tour tecnológico em Tóquio
 - **Política de cancelamento:** reembolso de 60% com 30 dias de antecedência
 - **Preço:** R$ 15.900,00 por pessoa
+- **Pacote:**:  Encantos
 
 ###  Pacote Sabores da Itália
 - **Duração:** 8 dias e 7 noites
 - **Atividades:** degustação de vinhos na Toscana, visita ao Coliseu, passeio de gôndola em Veneza
 - **Política de cancelamento:** reembolso de 70% com 20 dias de antecedência
 - **Preço:** R$ 11.200,00 por pessoa
+- **Pacote:**:  Sabores
 
-###  Pacote Safári África do Sul
+###  Pacote Aventura África do Sul
 - **Duração:** 9 dias e 8 noites
 - **Atividades:** safári no Kruger Park, visita à Table Mountain, tour pela Cidade do Cabo
 - **Política de cancelamento:** reembolso de 50% com 25 dias de antecedência
 - **Preço:** R$ 13.500,00 por pessoa
+- **Pacote:**:  Aventura
 
 ###  Pacote Austrália Selvagem
 - **Duração:** 10 dias e 9 noites
 - **Atividades:** mergulho na Grande Barreira de Corais, visita ao Opera House, tour pelo deserto australiano
 - **Política de cancelamento:** reembolso de 65% com 30 dias de antecedência
 - **Preço:** R$ 14.800,00 por pessoa
+- **Pacote:**:  Aventura
 
 
 

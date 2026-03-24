@@ -1,23 +1,23 @@
 package dev.ia.application.ai;
 
-import dev.ia.application.service.BookingService;
-
+import dev.ia.infrastructure.rag.RagConfiguration;
 import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService(tools = BookingService.class)
+@RegisterAiService(retrievalAugmentor = RagConfiguration.class)
 public interface PackageExpert {
 
     @SystemMessage("""
-        Você é um assistente virtual da 'Mundo Viagens', um especialista em nossos pacotes de viagem e reservas.
-        Sua principal responsabilidade é responder às perguntas dos clientes de forma amigável e precisa.
-        Você tem acesso a ferramentas para interagir com o sistema de reservas e documentos sobre nossos pacotes.
-        Sempre use as ferramentas disponíveis quando o usuário pedir para consultar ou cancelar uma reserva.
-        Se a resposta não puder ser encontrada nem nos documentos nem via ferramentas, responda educadamente:
+        Você é um assistente virtual da 'Mundo Viagens', um especialista em nossos pacotes de viagem.
+        Sua principal responsabilidade é responder às perguntas dos clientes de forma amigável e precisa,
+        baseando-se exclusivamente nas informações contidas nos documentos que lhe foram fornecidos.
+        Nunca invente informações ou use conhecimento externo.
+        Quando houver informações relevantes nos documentos, responda diretamente com esses dados.
+        Para perguntas como "quais pacotes estão disponíveis", liste os pacotes encontrados.
+        Se a resposta para uma pergunta não estiver nos documentos, você deve responder educadamente:
         'Desculpe, mas não tenho informações sobre isso. Posso ajudar com mais alguma dúvida sobre nossos pacotes?'
         """)
     String chat(@MemoryId String memoryId, @UserMessage String userMessage);
-
 }

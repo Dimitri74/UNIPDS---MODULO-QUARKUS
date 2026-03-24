@@ -28,15 +28,45 @@ ollama pull nomic-embed-text
 Execute o comando abaixo com o perfil `pgvector` ativado. 
 **Nota:** No PowerShell, é obrigatório o uso de aspas no argumento da propriedade.
 ```powershell
+chcp 65001
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new()
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
+$env:JAVA_TOOL_OPTIONS = "-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
+
 .\mvnw.cmd -Ppgvector quarkus:dev "-Dquarkus.profile=pgvector"
 ```
 
 ### 4. Testar a API
-Em um novo terminal, você pode validar o funcionamento com o comando:
+Em um novo terminal, você pode validar o funcionamento com os comandos:
+
+**Consulta de Viagens:**
 ```powershell
+chcp 65001
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new()
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
+
+@"
+Quais são os pacotes disponiveis?
+"@ | Set-Content -Path .\pergunta.txt -Encoding utf8
+
 curl.exe -X POST "http://localhost:8080/travel" `
      -H "Content-Type: text/plain; charset=utf-8" `
-     --data-raw "Por favor, cancele minha reserva 67890. Meu último nome é Smith."
+     -H "X-User-Name: John Doe" `
+     --data-binary "@pergunta.txt"
+```
+
+> Dica: se quiser evitar interferência de memória de conversas anteriores, troque o header `X-User-Name` (ex.: `John Doe 2`).
+
+**Cancelamento de Reserva:**
+```powershell
+@"
+Cancele a reserva 67890.
+"@ | Set-Content -Path .\cancelamento.txt -Encoding utf8
+
+curl.exe -X POST "http://localhost:8080/travel" `
+     -H "Content-Type: text/plain; charset=utf-8" `
+     -H "X-User-Name: John Doe" `
+     --data-binary "@cancelamento.txt"
 ```
 
 ---
