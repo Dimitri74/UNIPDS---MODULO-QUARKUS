@@ -1,10 +1,8 @@
-package dev.ia.application.service;
+package dev.ia.travel.service;
 
-
-import dev.ia.domain.model.Booking;
-import dev.ia.domain.model.BookingStatus;
-import dev.ia.domain.model.Category;
-import dev.ia.security.SecurityContext;
+import dev.ia.travel.model.Booking;
+import dev.ia.travel.model.BookingStatus;
+import dev.ia.travel.model.Category;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.LocalDate;
@@ -37,12 +35,10 @@ public class BookingService {
         return Optional.ofNullable(bookings.get(bookingId));
     }
 
-    public Optional<Booking> cancelBooking(long bookingId) {
-        String currentUser = SecurityContext.getCurrentUser();
+    public Optional<Booking> cancelBooking(long bookingId, String name) {
         if (bookings.containsKey(bookingId)) {
             Booking booking = bookings.get(bookingId);
-            // Validando o usuário "logado", e não apenas o informado
-            if (booking.customerName().equals(currentUser)) {
+            if (booking.customerName().equals(name)) {
                 Booking cancelledBooking = new Booking(
                         booking.id(),
                         booking.customerName(),

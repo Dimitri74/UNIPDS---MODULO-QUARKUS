@@ -1,9 +1,7 @@
 package dev.ia.presentation.rest;
 
 
-
-import dev.ia.application.ai.PackageExpert;
-import dev.ia.security.SecurityContext;
+import dev.ia.service.PackageExpertWithTemplate;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -12,19 +10,14 @@ import jakarta.ws.rs.core.MediaType;
 public class TravelAgentResource {
 
     @Inject
-    PackageExpert expert;
+    PackageExpertWithTemplate expert;
 
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public String ask(String question, @HeaderParam("X-User-Name") String userName) {
         if (userName != null && !userName.isEmpty()) {
-            try {
-                SecurityContext.setCurrentUser(userName);
-                return expert.chat(userName, question); // Usar userName como memoryId
-            } finally {
-                SecurityContext.clear();
-            }
+            return expert.chat(userName, question, userName);
         } else {
             return "Usuário precisa estar autenticado!";
         }

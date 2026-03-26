@@ -1,4 +1,4 @@
-package dev.ia.domain.model;
+package dev.ia.travel.model;
 
 public enum BookingStatus {
     CONFIRMED,
