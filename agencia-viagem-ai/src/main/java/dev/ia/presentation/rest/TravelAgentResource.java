@@ -1,7 +1,7 @@
 package dev.ia.presentation.rest;
 
 
-import dev.ia.service.PackageExpertWithTemplate;
+import dev.ia.application.ai.PackageExpertWithTemplate;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
